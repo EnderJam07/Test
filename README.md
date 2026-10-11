@@ -258,23 +258,5 @@ necessary to actually control the orientation of a marker on the end effector.
 
 (Extra credit, up to 10 points) Visualize the trajectory of the robot end effector by "tracing a
 line" that persists in your visualization.
-
-
-# Define plane parameters: A*x + B*y + C*z + D = 0
-# Let's choose y = -0.5 (A=0, B=1, C=0, D=0.5), which is safely away from the zero-position robot.
-PLANE = (0.0, 1.0, 0.0, 0.5)
-
-def check_plane_intersection(joints, chain, plane=PLANE):
-    A, B, C, D = plane
-    # Get all joint node positions
-    nodes = get_joints(joints)
-    
-    # Evaluate the plane equation for each joint node
-    evals = [A * node[0] + B * node[1] + C * node[2] + D for node in nodes]
-    
-    # Check if all nodes are strictly on one side of the plane
-    all_positive = all(val > 1e-6 for val in evals)
-    all_negative = all(val < -1e-6 for val in evals)
-    
     # If they are not all on the same side, an intersection (collision) occurs
     return not (all_positive or all_negative)
